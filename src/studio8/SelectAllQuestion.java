@@ -1,15 +1,32 @@
 package studio8;
 
 public class SelectAllQuestion extends MultipleChoiceQuestion {
-
+	
+	private String[] choice;
+	private String ans;
+	private int points;
+	
 	public SelectAllQuestion(String prompt, String answer, String[] choices) {
 		//Hint: 1 point per choice
 		//FIXME
+		super(prompt, answer, choices.length, choices);
+		this.choice = choices;
+		this.ans = answer;
+		this.points = choices.length;
+		
 	}
 	
 	public int checkAnswer(String givenAnswer) {
+		
 		//FIXME Should return partial credit (if earned)!
-		return 0;
+		/*for(int i = 0; i < givenAnswer.length(); i++) {
+			for(int j = 0; j < ans.length(); j++) {
+				if(givenAnswer.charAt(i) == ans.charAt(j)) {
+					points++;
+				}
+			}
+		}*/
+		return points - findMissingCorrectAnswers(givenAnswer) - findIncorrectGivenAnswers(givenAnswer);
 	}
 
 	private int findMissingCorrectAnswers(String givenAnswer) {
@@ -37,6 +54,7 @@ public class SelectAllQuestion extends MultipleChoiceQuestion {
 		int missingValues = 0;
 		for(int i = 0; i < toCheck.length(); i++) {
 			char characterToLocate = toCheck.charAt(i);
+			
 			if(baseString.indexOf(characterToLocate) == -1) { //not in baseString
 				missingValues++;
 			}
